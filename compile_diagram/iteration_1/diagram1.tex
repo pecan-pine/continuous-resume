@@ -1,0 +1,79 @@
+\documentclass[border=20pt]{standalone}
+% \documentclass[12pt]{article}
+\usepackage{tikz}
+\usetikzlibrary{fit, positioning, backgrounds, arrows.meta, shapes}
+
+\newcommand{\repository}[0]{\node[repository]}
+
+\begin{document}
+
+\tikzstyle{repository} = [
+    rectangle,
+    draw=black!50,
+    fill=blue!20,
+    thick,
+    inner sep=10pt,
+    minimum size=10mm
+]
+
+\tikzstyle{repo_collection} = [
+    node distance=20pt
+]
+
+\tikzstyle{repo_container} = [
+    fill=black!10,
+    inner sep=10pt,
+    ellipse,
+    minimum height=100pt,
+    minimum width=170pt
+]
+
+\tikzstyle{git_edge} = [
+    ->,
+    shorten >=7pt,
+    shorten <=7pt,
+    >={Stealth[round]},
+    ultra thick
+]
+
+\tikzstyle{git_label} = [
+    auto
+]
+
+\begin{tikzpicture}[node distance=1in]
+    \repository (Resume1) {resume1.tex};
+
+    \repository (PDF1) [below=of Resume1] {resume1.pdf};
+    \repository (HTML1) [below=of Resume1, right=of PDF1] {resume1.html};
+    \repository (TXT1) [below=of Resume1, left=of PDF1] {resume1.txt};
+    \repository (JS1) [below=of HTML1] {resume1.html};
+    \repository (Website) [below=of JS1] {website};
+    \path (Resume1) edge[git_edge] node[git_label] {compile} (PDF1);
+    \path (Resume1) edge[git_edge] node[git_label, swap] {python} (TXT1);
+    \path (Resume1) edge[git_edge] node[git_label] {python} (HTML1);
+    \path (HTML1) edge[git_edge] node[git_label] {copy} (JS1);
+    \path (JS1) edge[git_edge] node[git_label] {include} (Website);
+    
+    \begin{scope}[on background layer]
+        \node [repo_container, fit=(JS1)] {};
+    \end{scope}
+
+    \node [left of=JS1] {JavaScript};
+
+    \node (M) [left=of Website, below=of PDF1] {};
+    \node (N) [below=of M] {};
+
+    \repository (Resume2) [below=of N] {resume2.tex};
+    \repository (PDF2) [below=of Resume2] {resume2.pdf};
+    \repository (HTML2) [below=of Resume2, right=of PDF2] {resume2.html};
+    \repository (TXT2) [below=of Resume2, left=of PDF2] {resume2.txt};
+    \path (Resume2) edge[git_edge] node[git_label] {compile} (PDF2);
+    \path (Resume2) edge[git_edge] node[git_label, swap] {python} (TXT2);
+    \path (Resume2) edge[git_edge] node[git_label] {python} (HTML2);
+
+    % \repository (PDF3) [below=of Resume3] {resume3.pdf};
+    % \repository (HTML3) [below=of Resume3, right=of PDF3] {resume3.html};
+    % \repository (TXT3) [below=of Resume3, left=of PDF3] {resume3.txt};
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,77 @@
+\documentclass[border=20pt]{standalone}
+% \documentclass[12pt]{article}
+\usepackage{tikz}
+\usetikzlibrary{fit, positioning, backgrounds, arrows.meta, shapes}
+
+\newcommand{\repository}[0]{\node[repository]}
+
+\begin{document}
+
+\tikzstyle{repository} = [
+    rectangle,
+    draw=black!50,
+    fill=blue!20,
+    thick,
+    inner sep=10pt,
+    minimum size=10mm
+]
+
+\tikzstyle{repo_collection} = [
+    node distance=20pt
+]
+
+\tikzstyle{repo_container} = [
+    fill=black!10,
+    inner sep=10pt,
+    ellipse,
+    minimum height=100pt,
+    minimum width=170pt
+]
+
+\tikzstyle{git_edge} = [
+    ->,
+    shorten >=7pt,
+    shorten <=7pt,
+    >={Stealth[round]},
+    ultra thick
+]
+
+\tikzstyle{git_label} = [
+    auto
+]
+
+\begin{tikzpicture}[node distance=1in]
+    \repository (Resume1) {resume.tex};
+    
+    \repository (Processing) [above=of Resume1] {resume\_compiler.py};
+    \repository (Specs) [above=of Processing] {resume\_specs.py};
+    \repository (Components) [above=of Specs] {components.py};
+
+    \repository (PDF1) [below=of Resume1] {resume.pdf};
+    \repository (HTML1) [below=of Resume1, right=of PDF1] {resume.html};
+    \repository (TXT1) [below=of Resume1, left=of PDF1] {resume.txt};
+    \repository (HTML2) [below=of TXT1] {resume.html};
+    \repository (JS1) [right=of HTML2] {resume.html};
+    \repository (Website) [right=of JS1] {website};
+    \path (Resume1) edge[git_edge] node[git_label] {compile} (PDF1);
+    \path (Resume1) edge[git_edge] node[git_label, swap] {python} (TXT1);
+    \path (Resume1) edge[git_edge] node[git_label] {python} (HTML1);
+    \path (HTML2) edge[git_edge] node[git_label] {copy} (JS1);
+    \path (JS1) edge[git_edge] node[git_label] {include} (Website);
+
+    \path (Components) edge[git_edge] node[git_label] {include} (Specs);
+    \path (Specs) edge[git_edge] node[git_label] {include} (Processing);
+    \path (Processing) edge[git_edge] node[git_label] {python} (Resume1);
+    
+    \begin{scope}[on background layer]
+        \node [repo_container, fit=(JS1)] {};
+    \end{scope}
+
+    \node [above of=JS1, node distance=30pt] {JavaScript};
+
+    \node (M) [left=of Website, below=of PDF1] {};
+    \node (N) [below=of M] {};
+
+\end{tikzpicture}
+
+\end{document}
