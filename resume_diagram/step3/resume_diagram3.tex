@@ -1,7 +1,7 @@
 \documentclass[border=20pt]{standalone}
 % \documentclass[12pt]{article}
 \usepackage{tikz}
-\usetikzlibrary{fit, positioning, backgrounds, arrows.meta}
+\usetikzlibrary{fit, positioning, backgrounds, arrows.meta, shapes}
 
 \newcommand{\repository}[0]{\node[repository]}
 \begin{document}
@@ -19,9 +19,13 @@
     node distance=20pt
 ]
 
+
 \tikzstyle{repo_container} = [
     fill=black!10,
-    inner sep=30pt
+    inner sep=10pt,
+    ellipse,
+    minimum height=100pt,
+    minimum width=170pt
 ]
 
 \tikzstyle{git_edge} = [
