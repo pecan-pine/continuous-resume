@@ -1,0 +1,79 @@
+\documentclass[border=20pt]{standalone}
+% \documentclass[12pt]{article}
+\usepackage{tikz}
+\usetikzlibrary{fit, positioning, backgrounds, arrows.meta}
+
+\newcommand{\repository}[0]{\node[repository]}
+\begin{document}
+
+\tikzstyle{repository} = [
+    rectangle,
+    draw=black!50,
+    fill=blue!20,
+    thick,
+    inner sep=10pt,
+    minimum size=10mm
+]
+
+\tikzstyle{repo_collection} = [
+    node distance=20pt
+]
+
+\tikzstyle{repo_container} = [
+    fill=black!10,
+    inner sep=30pt
+]
+
+\tikzstyle{git_edge} = [
+    ->,
+    shorten >=7pt,
+    shorten <=7pt,
+    >={Stealth[round]},
+    ultra thick
+]
+
+\tikzstyle{git_label} = [
+    auto
+]
+
+\begin{tikzpicture}[node distance=2in]
+    \node (GH) {};
+    \begin{scope}[repo_collection]
+        \repository (GH Resume) [left=of GH] {resume};
+        \repository (GH Website) [right=of GH] {website};
+        \node[below=of GH] {GitHub 1};
+    \end{scope}
+    \node[node distance=1in, above=of GH Website, repository] (Email) {Mail Server};
+
+    \node (Home) [below=of GH] {};
+    \begin{scope}[repo_collection]
+        \repository (Resume) at (Home) {resume};
+        \node[below=of Home] {Home Computer};
+    \end{scope}
+
+    \node (atGH) [right=of GH Website] {};
+    \begin{scope}[repo_collection]
+        \repository (Website Fork) at (atGH) {website fork};
+        \node[below=of atGH] {GitHub 2};
+    \end{scope}
+
+    \node (Pi) [right=of Home, below=of atGH] {};
+    \begin{scope}[repo_collection]
+        \repository (Pi Resume) [left=of Pi] {resume};
+        \repository (Pi Website) [right=of Pi] {website};
+        \node[below=of Pi] {Local Server};
+    \end{scope}
+
+    \path (Pi Website) edge[git_edge] node[git_label] {push} (Website Fork.south east);
+    \path (Website Fork) edge[git_edge] node[git_label] {pull request} (GH Website);
+    \path (GH Website) edge[git_edge] node[git_label] {email} (Email);
+
+    \begin{scope}[on background layer]
+        \node [repo_container, fit=(GH Resume) (GH Website)] {};
+        \node [repo_container, fit=(Resume)] {};
+        \node [repo_container, fit=(Pi Resume) (Pi Website)] {};
+        \node [repo_container, fit=(Website Fork)] {};
+    \end{scope}
+\end{tikzpicture}
+
+\end{document}
