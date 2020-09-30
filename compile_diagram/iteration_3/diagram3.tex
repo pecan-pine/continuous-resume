@@ -1,0 +1,76 @@
+\documentclass[border=20pt]{standalone}
+% \documentclass[12pt]{article}
+\usepackage{tikz}
+\usetikzlibrary{fit, positioning, backgrounds, arrows.meta, shapes}
+
+\newcommand{\repository}[0]{\node[repository]}
+
+\begin{document}
+
+\tikzstyle{repository} = [
+    rectangle,
+    draw=black!50,
+    fill=blue!20,
+    thick,
+    inner sep=10pt,
+    minimum size=10mm
+]
+
+\tikzstyle{repo_collection} = [
+    node distance=20pt
+]
+
+\tikzstyle{repo_container} = [
+    fill=black!10,
+    inner sep=10pt,
+    ellipse,
+    minimum height=100pt,
+    minimum width=170pt
+]
+
+\tikzstyle{git_edge} = [
+    ->,
+    shorten >=7pt,
+    shorten <=7pt,
+    >={Stealth[round]},
+    ultra thick
+]
+
+\tikzstyle{git_label} = [
+    auto
+]
+
+\begin{tikzpicture}[node distance=1in]
+    \repository (Processing) {Processing};
+    
+    \repository[xshift=0.75in, yshift=20pt] (Specs) [above left=of Processing] {Specifications};
+    \repository (Components) [above=of Specs] {Components};
+
+    \repository[xshift=-0.75in, yshift=20pt] (Templates) [above right=of Processing] {Templates};
+
+    \repository (Resume1) [below=of Processing] {resume.tex};
+    \repository (HTML1) [below=of Processing, right=of Resume1] {resume.html};
+    \repository (TXT1) [below=of Processing, left=of Resume1] {resume.txt};
+    % \repository (Website) [below=of HTML1] {website};
+
+    \repository (PDF1) [below=of Resume1] {resume.pdf};
+    \path (Processing) edge[git_edge] node[git_label] {Jinja} (Resume1);
+    \path (Processing) edge[git_edge] node[git_label, swap] {Jinja} (TXT1);
+    \path (Processing) edge[git_edge] node[git_label] {Jinja} (HTML1);
+    % \path (HTML1) edge[git_edge] node[git_label] {include} (Website);
+
+    \path (Components) edge[git_edge] node[git_label] {} (Specs);
+    \path (Specs) edge[git_edge] node[git_label] {} (Processing);
+    \path (Templates) edge[git_edge] node[git_label] {} (Processing);
+
+    \path (Resume1) edge[git_edge] node[git_label] {compile} (PDF1);
+    
+    \begin{scope}[on background layer]
+        \node [repo_container, fit=(HTML1)] {};
+    \end{scope}
+
+    \node [above of=HTML1, node distance=30pt] {JavaScript};
+
+\end{tikzpicture}
+
+\end{document}
