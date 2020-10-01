@@ -2,7 +2,7 @@
 
 This is my attempt to document a project which has 
 become relatively spread-out. The project is a resume
-updating system. In it's current form, I have resume
+updating system. In its current form, I have resume
 data stored in a MongoDB database. The data gets fed into 
 several Jinja templates to produce resumes with slightly different
 content and several different file types. 
