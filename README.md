@@ -96,7 +96,7 @@ Here are the steps in detail:
 
 ![website4](images/website4.PNG)
 
-5. I can review changes, and if everything has gone right, update the website. 
+5. I can review changes, and if everything went well, update the website. 
 
 
 Problems:
