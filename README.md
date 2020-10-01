@@ -48,7 +48,7 @@ My solution was to do the following:
 - One Python program makes all versions of the resume, using one very simple LaTeX template. 
 
 Problems:
-- Only produces .tex file (other file types produced by having Python read the LaTeX code)
+- Only produces .tex files (other file types produced by having Python read the LaTeX code)
 - Post-processing to get .txt/.html resumes unreliable
 - Updating website is still the same process
 
