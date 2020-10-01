@@ -49,7 +49,7 @@ My solution was to do the following:
 
 Problems:
 - Only produces .tex files (other file types produced by having Python read the LaTeX code)
-- Post-processing to get .txt/.html resumes unreliable
+- Post-processing to get .txt/.html resumes is unreliable
 - Updating website is still the same process
 
 ![diagram2](images/diagram2.PNG)
